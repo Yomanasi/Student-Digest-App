@@ -17,6 +17,7 @@ import avatarPicture from "../assets/avatar.png";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
 import { getAuth } from "firebase/auth";
+import { UsernameField } from "../App/components/UsernameField";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -71,6 +72,7 @@ const Settingscreen = ({ navigation }) => {
     const keys = await getAllKeys();
     const values = await getAllValues(keys);
     return values;
+    
   }
 
   const makeCards = () => {
@@ -165,7 +167,7 @@ const Settingscreen = ({ navigation }) => {
               {username}
             </Title>
             <View>
-              <Caption> @ Plattsburgh </Caption>
+              <UsernameField viewStatus={"1"} />
             </View>
           </View>
         </View>
@@ -188,7 +190,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: - (windowHeight/30),
     //paddingBottom: - (windowHeight/30),
-    backgroundColor: "#FAF9F6",
+    backgroundColor: "#E1E0DD",
   },
   userInfoSection: {
     paddingHorizontal: 30,
@@ -220,7 +222,7 @@ const styles = StyleSheet.create({
 },
   test: {
     borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderTopRightRadius: 30,
     height: windowHeight / 7.4,
   },
   scrollViewStyle: {
@@ -244,7 +246,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
   },
   emptyDigest:{
-    color: "grey",
+    color: "black",
   },
   emptyDigestView: {
     margin: windowWidth / 4

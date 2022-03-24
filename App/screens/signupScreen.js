@@ -1,13 +1,21 @@
-import React, { useContext } from "react";
+import React, { useContext,useEffect } from "react";
 import { Text,View,SafeAreaView, StyleSheet,TextInput,Dimensions,Button,TouchableOpacity, Image, KeyboardAvoidingView,Platform, ActivityIndicator} from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import AuthenticationContext from '../../context/authentication';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
+import axios from 'axios';
+
+import Filter from 'bad-words';
+import LeoProfanity from "leo-profanity";
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 let hidePassword = true;// true hides the password, false shows it
+
+const profanityUrl = "https://www.purgomalum.com/service/containsprofanity?text=";
 
 export const SignupScreen = ({navigation}) =>{
     const [email, onChangeEmail] = React.useState("");
@@ -15,13 +23,87 @@ export const SignupScreen = ({navigation}) =>{
     const [name, onChangeName] = React.useState("");
     const [eye,setEye] = React.useState(<Ionicons name="eye-off" size={25} color="black" />)
     const {signUp} = useContext(AuthenticationContext);
-    const handleSignUp = ()=>{
+    const {signIn, isAuthed} = useContext(AuthenticationContext);
+
+    const fetchCred = async () =>{
       try{
-          signUp(email,password,name);
-          navigation.navigate("TABS");
-      }catch(error){
-          console.log(console.error);
+        const cred = await AsyncStorage.getItem("credentails");
+        if(cred != null){
+          return JSON.parse(cred);
+        }
+      }catch(err){
+        console.log("no credentails saved");
+        return null;
       }
+
+    }
+
+    useEffect(() => {
+      fetchCred().then(val => {
+        if(val != null){
+          onChangeEmail(val["email"]);
+          onChangePassword(val["password"]);
+          try{
+            signIn(val["email"],val["password"])
+            navigation.navigate("TABS");
+          }catch(err){
+            console.log(console.error);
+          }
+        }
+      });
+      if(isAuthed){
+        navigation.navigate("TABS");
+      }
+    }, [isAuthed,navigation])
+
+    const handleSignUp = () => {
+      if(email == "" || password == "" || name == ""){
+        Toast.show({
+          type: 'error',
+          text1: 'Email, password, and/or name values are empty! ❌',
+        });
+        return;
+      }
+      //profanity Checker
+      axios({
+        method: 'get',
+        url: `${profanityUrl}${name}`,
+      }).then((response) => {
+        if(response.data == true){
+          Toast.show({
+            type: 'error',
+            text1: 'Name has Profanity ❌',
+          });
+          return;
+        }
+        if(password.length < 6){
+          Toast.show({
+            type: 'error',
+            text1: 'Password must be greater than 6 characters! ❌',
+          });
+          return;
+        }
+  
+        
+        try{
+            console.log(email);
+            signUp(email,password,name).then((v) => {
+              console.log(v);
+              if(v == null){
+                navigation.navigate("TABS");
+              }
+              return;
+            });
+            //navigation.navigate("TABS");
+        }catch(error){
+          Toast.show({
+            type: 'error',
+            text1: 'Bad Email/Password! ❌',
+          });
+          return;
+        }
+      });
+
   }
     const changeEye = () => {
       if(hidePassword != true){

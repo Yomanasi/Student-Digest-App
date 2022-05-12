@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import { Text, View } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
@@ -50,3 +51,14 @@ export const UsernameField = ({viewStatus, user, setUsername}) => {
 
 
 
+=======
+import React, { useState } from "react";
+import { Text } from "react-native";
+
+export const UsernameField = ({viewStatus, user}) => {
+    if(viewStatus = "1"){
+        return (<Text>mjadh002</Text>);
+    }
+    return (<Text>Not.in.if.W</Text>);
+}
+>>>>>>> 9ac0236af55bfb5261c920def014ff3842a6069a

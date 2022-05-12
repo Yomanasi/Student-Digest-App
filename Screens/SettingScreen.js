@@ -18,9 +18,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
 import { getAuth } from "firebase/auth";
 import { UsernameField } from "../App/components/UsernameField";
+<<<<<<< HEAD
 
 import { Ionicons } from '@expo/vector-icons';
 
+=======
+import { AuthErrorCodes, getAuth } from "firebase/auth";
+>>>>>>> 9ac0236af55bfb5261c920def014ff3842a6069a
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -32,7 +36,13 @@ const Settingscreen = ({ navigation }) => {
 
   const [username, setUsername] = React.useState("");
   const [icon, setIcon] = React.useState("https://www.plattsburgh.edu/files/307/images/new-burghy-p-logo.png")
+<<<<<<< HEAD
   
+=======
+
+  const [cardCounter, setCardCounter] = React.useState(0);
+
+>>>>>>> 9ac0236af55bfb5261c920def014ff3842a6069a
 
 
   const refresh = () => {
@@ -47,8 +57,6 @@ const Settingscreen = ({ navigation }) => {
     } catch(e) {
       // remove error
     }
-  
-    console.log(digest, "has been removed");
   }
 
   const getAllKeys = async () => {
@@ -75,10 +83,11 @@ const Settingscreen = ({ navigation }) => {
     const keys = await getAllKeys();
     const values = await getAllValues(keys);
     return values;
+    
   }
 
   const makeCards = () => {
-    if(localStorage.length < 1){
+    if(localStorage.length - 2 < 1){
       return (
         <View style={styles.emptyDigestView}>
           <Text style={styles.emptyDigest}>Looks like you haven't saved anything.</Text>
@@ -88,6 +97,9 @@ const Settingscreen = ({ navigation }) => {
     }
     return localStorage.map((digest, i) => {
       const parsed = JSON.parse(digest[1]);
+      if(parsed["t"] == null || parsed["d"] == null || parsed["pic"] == null){
+        return(<Text key={i}></Text>)
+      }
       return(
         <Card style = {styles.cardStyle} elevation = {2} onPress = {() => {
           navigation.navigate("SeeMore", {t: parsed["t"], d: parsed["d"], pic: parsed["pic"]});
@@ -105,6 +117,7 @@ const Settingscreen = ({ navigation }) => {
           <Card.Cover source={{ uri: parsed["pic"] }} style={styles.test}/>
           <Card.Content>
               <Title>{parsed["t"].slice(0,50)}...</Title>
+              <Paragraph>{Date(parsed["timeStamp"]).toString().slice(0,15)}</Paragraph>
           </Card.Content>
       </Card>
       );
@@ -119,8 +132,6 @@ const Settingscreen = ({ navigation }) => {
       const photoURL = user.photoURL;
       setUsername(displayName);
       setIcon(photoURL);
-      console.log(user.uid, "<------");
-      console.log(user.displayName, "<------");
     }
   }
 
@@ -131,8 +142,6 @@ const Settingscreen = ({ navigation }) => {
       SetLocalStorage(val);
     });
     setUserCred();
-    console.log(username, "<------");
-    console.log(icon, "<------");
     return () => {};
   }, [isFocused]);
 
@@ -173,6 +182,7 @@ const Settingscreen = ({ navigation }) => {
 
   let imageUrl = "";
   return (
+    <ScrollView>
     <SafeAreaView style={styles.container}>
       <View style={styles.Settingview}>
         <SettingsIcon style={styles.button} navigation={navigation} size={10} />
@@ -202,12 +212,17 @@ const Settingscreen = ({ navigation }) => {
               ]}
             >
             </Title>
+<<<<<<< HEAD
             <View  style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               
               <UsernameField viewStatus = {nameEditing} user = {username} setUsername = {setUsername} />
               <Ionicons size={iconSize} onPress={() => onClickEdit()} name={nameIcon}/>
               
               
+=======
+            <View>
+              <UsernameField viewStatus={"1"} />
+>>>>>>> 9ac0236af55bfb5261c920def014ff3842a6069a
             </View>
           </View>
         </View>
@@ -220,6 +235,7 @@ const Settingscreen = ({ navigation }) => {
         {makeCards()}
       </ScrollView>
     </SafeAreaView>
+    </ScrollView>
   );
 };
 export default Settingscreen;
@@ -230,7 +246,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: - (windowHeight/30),
     //paddingBottom: - (windowHeight/30),
-    backgroundColor: "#FAF9F6",
+    backgroundColor: "#E1E0DD",
   },
   userInfoSection: {
     paddingHorizontal: 30,
@@ -262,13 +278,14 @@ const styles = StyleSheet.create({
 },
   test: {
     borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderTopRightRadius: 30,
     height: windowHeight / 7.4,
   },
   scrollViewStyle: {
     //marginTop: 10,
     backgroundColor: "white",
     width: "100%",
+    height: windowHeight / 2,
     elevation: 5,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
@@ -286,9 +303,21 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
   },
   emptyDigest:{
-    color: "grey",
+    color: "black",
   },
   emptyDigestView: {
-    margin: windowWidth / 4
+    //backgroundColor: "blue",
+    // alignItems: "center",
+    // marginLeft: windowWidth / 4,
+    // marginTop: "auto",
+    // marginBottom: "auto",
+    //marginLeft: windowWidth / 5,
+    //marginTop: windowWidth / 4,
+    //width: "100%",
+    alignSelf: "center",
+    marginHorizontal: windowWidth / 5
+    //alignItems: "center"
+    //padding: 10
+
   }
 });

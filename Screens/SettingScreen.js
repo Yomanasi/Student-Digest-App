@@ -17,6 +17,10 @@ import avatarPicture from "../assets/avatar.png";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
 import { getAuth } from "firebase/auth";
+import { UsernameField } from "../App/components/UsernameField";
+
+import { Ionicons } from '@expo/vector-icons';
+
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -28,7 +32,7 @@ const Settingscreen = ({ navigation }) => {
 
   const [username, setUsername] = React.useState("");
   const [icon, setIcon] = React.useState("https://www.plattsburgh.edu/files/307/images/new-burghy-p-logo.png")
-
+  
 
 
   const refresh = () => {
@@ -121,6 +125,7 @@ const Settingscreen = ({ navigation }) => {
   }
 
 
+
   React.useEffect(() => {
     fetchFromLocalStorage().then((val) => {
       SetLocalStorage(val);
@@ -130,6 +135,40 @@ const Settingscreen = ({ navigation }) => {
     console.log(icon, "<------");
     return () => {};
   }, [isFocused]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const [nameEditing, setNameEditing] = React.useState("Display");
+  const [nameIcon, setNameIcon] = React.useState("pencil-sharp");
+  const [iconSize, setIconSize] = React.useState(20);
+
+  const onClickEdit = () => {
+
+
+    if(nameEditing === "Editing"){
+      setNameEditing("Display");
+      setNameIcon("pencil-sharp");
+      setIconSize(20);
+      return;
+    }
+    setNameEditing("Editing") ;
+    setIconSize(30);
+    setNameIcon("checkmark");
+
+
+  }
+
 
 
   let imageUrl = "";
@@ -162,10 +201,13 @@ const Settingscreen = ({ navigation }) => {
                 },
               ]}
             >
-              {username}
             </Title>
-            <View>
-              <Caption> @ Plattsburgh </Caption>
+            <View  style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              
+              <UsernameField viewStatus = {nameEditing} user = {username} setUsername = {setUsername} />
+              <Ionicons size={iconSize} onPress={() => onClickEdit()} name={nameIcon}/>
+              
+              
             </View>
           </View>
         </View>

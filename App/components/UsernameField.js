@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Text, View } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
@@ -7,6 +8,8 @@ import { SafeAreaView, StyleSheet } from "react-native";
 
 
 export const UsernameField = ({viewStatus, user, setUsername}) => {
+
+
     
     const styles = StyleSheet.create({
       input: {
@@ -44,6 +47,7 @@ export const UsernameField = ({viewStatus, user, setUsername}) => {
     
 
 };
+
 
 
 

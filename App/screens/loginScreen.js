@@ -3,6 +3,11 @@ import { Text,View,SafeAreaView, StyleSheet,TextInput,Dimensions,Button,Touchabl
 import { Ionicons } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import AuthenticationContext from '../../context/authentication';
+<<<<<<< HEAD
+=======
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
+>>>>>>> 64f4d1e9f32e9fd66626232d1d89b66fd99d5a89
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -16,17 +21,75 @@ export const LoginScreen = ({navigation}) =>{
     const [eye,setEye] = React.useState(<Ionicons name="eye-off" size={25} color="black" />)
     const {signIn, isAuthed} = useContext(AuthenticationContext);
 
+<<<<<<< HEAD
     useEffect(()=>{
+=======
+    const fetchCred = async () =>{
+      try{
+        const cred = await AsyncStorage.getItem("credentails");
+        if(cred != null){
+          return JSON.parse(cred);
+        }
+      }catch(err){
+        console.log("no credentails saved");
+        return null;
+      }
+
+    }
+
+    useEffect(()=>{
+      fetchCred().then(val => {
+        if(val != null){
+          onChangeEmail(val["email"]);
+          onChangePassword(val["password"]);
+          try{
+            signIn(val["email"],val["password"])
+          }catch(err){
+            console.log(console.error);
+          }
+        }
+      });
+>>>>>>> 64f4d1e9f32e9fd66626232d1d89b66fd99d5a89
       if (isAuthed)
         navigation.navigate("TABS");
     },[isAuthed,navigation])
 
     const handleLogin = () =>{
+<<<<<<< HEAD
         try{
             signIn(email,password);
         }catch(error){
             console.log(console.error);
         }
+=======
+      if(email == "" || password == ""){
+        Toast.show({
+          type: 'error',
+          text1: 'Email or password values are empty! ❌',
+        });
+        return;
+      }
+      if(password.length < 6){
+        Toast.show({
+          type: 'error',
+          text1: 'Password must be greater than 6 characters! ❌',
+        });
+        return;
+      }
+      try{
+          signIn(email,password).then((v) => {
+            if(v == null){
+              navigation.navigate("TABS");
+            }
+          } );
+      }catch(error){
+        Toast.show({
+          type: 'error',
+          text1: 'Bad Email/Password! ❌',
+        });
+        return;
+      }
+>>>>>>> 64f4d1e9f32e9fd66626232d1d89b66fd99d5a89
     }
 
     const changeEye = () => {

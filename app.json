@@ -1,12 +1,22 @@
 {
   "expo": {
     "name": "student_digest_app",
+<<<<<<< HEAD
     "slug": "student_digest_app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
+=======
+    "slug": "student-digest-app",
+    "owner": "njt2000",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/ic_launcher-web.png",
+    "splash": {
+      "image": "./assets/logo.png",
+>>>>>>> 64f4d1e9f32e9fd66626232d1d89b66fd99d5a89
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,12 +31,22 @@
     },
     "android": {
       "adaptiveIcon": {
+<<<<<<< HEAD
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
+=======
+        "foregroundImage": "./assets/ic_launcher-web.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.codinghub.studentdigest"
+    },
+    "web": {
+      "favicon": "./assets/STUDENT-DIGEST-LOGO.png"
+>>>>>>> 64f4d1e9f32e9fd66626232d1d89b66fd99d5a89
     }
   }
 }

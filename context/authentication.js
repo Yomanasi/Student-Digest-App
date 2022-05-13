@@ -3,6 +3,11 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import {API_KEY,MSI,APP_ID} from "@env";
 import 'firebase/compat/firestore';
+<<<<<<< HEAD
+=======
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
+>>>>>>> 64f4d1e9f32e9fd66626232d1d89b66fd99d5a89
 
 const firebaseConfig = {
     apiKey: `${API_KEY}`,
@@ -20,11 +25,30 @@ firebase.initializeApp(firebaseConfig);
 const doSignIn = (onSucess, onFail) =>{
     return async(email, password) =>{
         try{
+<<<<<<< HEAD
             let credential = await firebase.auth().signInWithEmailAndPassword(email,password);
             if (onSucess) onSucess(credential);
         }catch(error){
             console.log(error);
             if (onFail) onFail();
+=======
+            await AsyncStorage.setItem("credentails", JSON.stringify({email : email, password : password}));
+            let credential = await firebase.auth().signInWithEmailAndPassword(email,password);
+            if (onSucess) onSucess(credential);
+        }catch(error){
+            try {
+                await AsyncStorage.removeItem('credentails');
+              } catch(e) {
+                console.log("could not remove bad cred");
+              }
+            Toast.show({
+                type: 'error',
+                text1: 'Bad Email/Password!',
+              });
+            console.log(error);
+            if (onFail) onFail();
+            return "bad-email";
+>>>>>>> 64f4d1e9f32e9fd66626232d1d89b66fd99d5a89
         }  
     }
 }
@@ -32,13 +56,32 @@ const doSignIn = (onSucess, onFail) =>{
 const doSignUp = (onSucess, onFail) =>{
     return async(email, password, name) =>{
         try{
+<<<<<<< HEAD
+=======
+            await AsyncStorage.setItem("credentails", JSON.stringify({email : email, password : password}));
+>>>>>>> 64f4d1e9f32e9fd66626232d1d89b66fd99d5a89
             let credential = await firebase.auth().createUserWithEmailAndPassword(email,password);
             if (onSucess) {
                 onSucess(email,name);
             }
         }catch(error){
+<<<<<<< HEAD
             console.log(error);
             if (onFail) onFail();
+=======
+            try {
+                await AsyncStorage.removeItem('credentails');
+              } catch(e) {
+                console.log("could not remove bad cred");
+              }
+              Toast.show({
+                type: 'error',
+                text1: 'Bad Email/Password!',
+              });
+            console.log(error);
+            if (onFail) onFail();
+            return "bad-email";
+>>>>>>> 64f4d1e9f32e9fd66626232d1d89b66fd99d5a89
         }  
     }
 }

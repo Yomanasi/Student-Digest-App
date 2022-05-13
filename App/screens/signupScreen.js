@@ -1,47 +1,28 @@
-<<<<<<< HEAD
-import React, { useContext } from "react";
-=======
 import React, { useContext,useEffect } from "react";
->>>>>>> 64f4d1e9f32e9fd66626232d1d89b66fd99d5a89
 import { Text,View,SafeAreaView, StyleSheet,TextInput,Dimensions,Button,TouchableOpacity, Image, KeyboardAvoidingView,Platform, ActivityIndicator} from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import AuthenticationContext from '../../context/authentication';
-<<<<<<< HEAD
-=======
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
 import axios from 'axios';
 
 import Filter from 'bad-words';
 import LeoProfanity from "leo-profanity";
->>>>>>> 64f4d1e9f32e9fd66626232d1d89b66fd99d5a89
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 let hidePassword = true;// true hides the password, false shows it
 
-<<<<<<< HEAD
-=======
 const profanityUrl = "https://www.purgomalum.com/service/containsprofanity?text=";
 
->>>>>>> 64f4d1e9f32e9fd66626232d1d89b66fd99d5a89
 export const SignupScreen = ({navigation}) =>{
     const [email, onChangeEmail] = React.useState("");
     const [password, onChangePassword] = React.useState("");
     const [name, onChangeName] = React.useState("");
     const [eye,setEye] = React.useState(<Ionicons name="eye-off" size={25} color="black" />)
     const {signUp} = useContext(AuthenticationContext);
-<<<<<<< HEAD
-    const handleSignUp = ()=>{
-      try{
-          signUp(email,password,name);
-          navigation.navigate("TABS");
-      }catch(error){
-          console.log(console.error);
-      }
-=======
     const {signIn, isAuthed} = useContext(AuthenticationContext);
 
     const fetchCred = async () =>{
@@ -123,7 +104,6 @@ export const SignupScreen = ({navigation}) =>{
         }
       });
 
->>>>>>> 64f4d1e9f32e9fd66626232d1d89b66fd99d5a89
   }
     const changeEye = () => {
       if(hidePassword != true){
